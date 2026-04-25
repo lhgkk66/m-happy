@@ -49,7 +49,7 @@
             <!-- 游戏内容 -->
             <div class="game-content">
                 <h2 class="game-title">盲盒抽奖</h2>
-                <p class="game-subtitle">点击格子开始抽奖吧~</p>
+                <p class="game-subtitle">点击格子或抽奖按钮开始抽奖吧~</p>
                 
                 <div class="grid-container">
                     <div class="grid-item" onclick="drawPrize(0)"></div>
@@ -64,6 +64,9 @@
                     <div class="grid-item" onclick="drawPrize(7)"></div>
                     <div class="grid-item" onclick="drawPrize(8)"></div>
                 </div>
+
+                <!-- 抽奖按钮 -->
+                <button id="draw-button" class="draw-button" onclick="triggerRandomDraw()">🎲 点击抽奖</button>
             </div>
         </div>
     </div>
