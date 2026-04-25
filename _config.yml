@@ -1,0 +1,21 @@
+# GitHub Pages Jekyll Configuration
+title: M-Happy
+description: A happy project
+theme: jekyll-theme-minimal
+
+# Exclude files from jekyll build
+exclude:
+  - .git
+  - .gitignore
+  - node_modules
+  - Gemfile
+  - Gemfile.lock
+
+# Build settings
+markdown: kramdown
+plugins:
+  - jekyll-feed
+
+# Site URL
+url: "https://lhgkk66.github.io"
+baseurl: "/m-happy"
