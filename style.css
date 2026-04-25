@@ -1,0 +1,507 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', 'Microsoft YaHei', sans-serif;
+    overflow: hidden;
+    background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+    color: #fff;
+}
+
+/* 页面容器 */
+.page {
+    display: none;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.page.active {
+    display: flex;
+    animation: fadeIn 0.8s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* ======================== 首页面样式 ======================== */
+
+.home-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.home-content {
+    text-align: center;
+    z-index: 10;
+    animation: popIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes popIn {
+    from {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.title-main {
+    font-size: clamp(2rem, 8vw, 4.5rem);
+    font-weight: 900;
+    background: linear-gradient(135deg, #ff69b4, #ff1493, #ffd700, #ff69b4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    background-size: 300% 300%;
+    animation: gradientShift 5s ease infinite;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 30px rgba(255, 105, 180, 0.3);
+    filter: drop-shadow(0 0 20px rgba(255, 20, 147, 0.4));
+}
+
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.subtitle {
+    font-size: clamp(1rem, 3vw, 1.5rem);
+    color: #b19cd9;
+    margin-bottom: 2rem;
+    font-weight: 300;
+    letter-spacing: 2px;
+}
+
+/* 浮动心形 */
+.floating-hearts {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin: 2rem 0;
+    flex-wrap: wrap;
+}
+
+.heart {
+    font-size: 3rem;
+    animation: float 3s ease-in-out infinite, pulse 2s ease-in-out infinite;
+    display: inline-block;
+}
+
+.heart:nth-child(1) { animation-delay: 0s, 0s; }
+.heart:nth-child(2) { animation-delay: 0.2s, 0.3s; }
+.heart:nth-child(3) { animation-delay: 0.4s, 0.6s; }
+.heart:nth-child(4) { animation-delay: 0.6s, 0.9s; }
+.heart:nth-child(5) { animation-delay: 0.8s, 1.2s; }
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-30px);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+}
+
+/* 开始按钮 */
+.start-button {
+    padding: 1.2rem 3rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #fff;
+    background: linear-gradient(135deg, #ff69b4, #ff1493);
+    border: 2px solid #ff1493;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 30px rgba(255, 105, 180, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-top: 2rem;
+}
+
+.start-button:hover {
+    transform: scale(1.05) translateY(-3px);
+    box-shadow: 0 0 50px rgba(255, 105, 180, 0.8), inset 0 0 20px rgba(255, 255, 255, 0.2);
+    background: linear-gradient(135deg, #ff1493, #ff69b4);
+}
+
+.start-button:active {
+    transform: scale(0.98);
+}
+
+/* ======================== 游戏页面样式 ======================== */
+
+.game-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.game-content {
+    text-align: center;
+    z-index: 10;
+}
+
+.game-title {
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    background: linear-gradient(135deg, #ff69b4, #ffd700);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+.game-subtitle {
+    font-size: 1rem;
+    color: #b19cd9;
+    margin-bottom: 2rem;
+    letter-spacing: 1px;
+}
+
+/* 九宫格 */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    width: fit-content;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.grid-item {
+    width: clamp(80px, 20vw, 140px);
+    height: clamp(80px, 20vw, 140px);
+    background: linear-gradient(135deg, rgba(255, 105, 180, 0.1), rgba(255, 20, 147, 0.1));
+    border: 2px solid #ff69b4;
+    border-radius: 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: clamp(0.8rem, 3vw, 1.2rem);
+    font-weight: bold;
+    text-align: center;
+    color: #fff;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 20px rgba(255, 105, 180, 0.3), inset 0 0 20px rgba(255, 255, 255, 0.05);
+    position: relative;
+    overflow: hidden;
+    padding: 1rem;
+    word-break: break-word;
+}
+
+.grid-item:before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+    top: -100%;
+    left: 0;
+    transition: top 0.5s;
+}
+
+.grid-item:hover:before {
+    top: 100%;
+}
+
+.grid-item:hover {
+    transform: translateY(-10px) scale(1.05);
+    box-shadow: 0 0 40px rgba(255, 105, 180, 0.6), inset 0 0 20px rgba(255, 255, 255, 0.1);
+    border-color: #ffd700;
+}
+
+.grid-item.opened {
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 105, 180, 0.2));
+    border-color: #ffd700;
+    cursor: not-allowed;
+}
+
+.grid-item.special {
+    grid-column: 2;
+    grid-row: 2;
+    border: 3px dashed #ffd700;
+    font-size: clamp(0.7rem, 2vw, 1rem);
+}
+
+.grid-item.special span {
+    font-size: clamp(0.6rem, 2vw, 0.9rem);
+    display: block;
+}
+
+.grid-item.special:before {
+    background: linear-gradient(45deg, transparent 30%, rgba(255, 215, 0, 0.2) 50%, transparent 70%);
+}
+
+.grid-item.special:hover {
+    border-color: #ff1493;
+    box-shadow: 0 0 50px rgba(255, 215, 0, 0.8), inset 0 0 30px rgba(255, 255, 255, 0.15);
+}
+
+/* ======================== 祝福页面样式 ======================== */
+
+.blessing-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.blessing-content {
+    width: 90%;
+    max-width: 800px;
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    z-index: 10;
+}
+
+.blessing-title {
+    font-size: clamp(2rem, 6vw, 3rem);
+    background: linear-gradient(135deg, #ff69b4, #ffd700);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-weight: bold;
+}
+
+.messages-container {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* 消息气泡 */
+.message-bubble {
+    display: flex;
+    margin: 0.5rem 0;
+    animation: slideIn 0.5s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.message-bubble.left {
+    justify-content: flex-start;
+}
+
+.message-bubble.right {
+    justify-content: flex-end;
+}
+
+.message-text {
+    max-width: 70%;
+    padding: 1rem 1.2rem;
+    border-radius: 20px;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    word-wrap: break-word;
+    animation: messageShow 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes messageShow {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.message-bubble.left .message-text {
+    background: linear-gradient(135deg, rgba(255, 105, 180, 0.3), rgba(255, 20, 147, 0.3));
+    border: 1px solid #ff69b4;
+    border-radius: 20px 20px 20px 5px;
+    box-shadow: 0 0 20px rgba(255, 105, 180, 0.3), inset 0 0 10px rgba(255, 255, 255, 0.05);
+}
+
+.message-bubble.right .message-text {
+    background: linear-gradient(135deg, rgba(100, 200, 255, 0.3), rgba(100, 150, 255, 0.3));
+    border: 1px solid #00ffff;
+    border-radius: 20px 20px 5px 20px;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.3), inset 0 0 10px rgba(255, 255, 255, 0.05);
+}
+
+/* ======================== 特效样式 ======================== */
+
+/* 星星背景 */
+.stars {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    background-image:
+        radial-gradient(2px 2px at 20px 30px, #eee, rgba(255, 255, 255, 0.3)),
+        radial-gradient(2px 2px at 60px 70px, #fff, rgba(255, 255, 255, 0.2)),
+        radial-gradient(1px 1px at 50px 50px, #fff, rgba(255, 255, 255, 0.2)),
+        radial-gradient(1px 1px at 130px 80px, #fff, rgba(255, 255, 255, 0.2)),
+        radial-gradient(2px 2px at 90px 10px, #fff, rgba(255, 255, 255, 0.2));
+    background-repeat: repeat;
+    background-size: 200px 200px;
+    animation: twinkleStar 8s infinite;
+}
+
+@keyframes twinkleStar {
+    0%, 100% {
+        opacity: 0.5;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+/* 烟火容器 */
+.left-fireworks,
+.right-fireworks {
+    position: absolute;
+    width: 200px;
+    height: 100%;
+    z-index: 5;
+    pointer-events: none;
+}
+
+.left-fireworks {
+    left: 0;
+    top: 0;
+}
+
+.right-fireworks {
+    right: 0;
+    top: 0;
+}
+
+/* 烟火粒子 */
+.firework-particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+/* ======================== 响应式设计 ======================== */
+
+@media (max-width: 768px) {
+    .grid-container {
+        gap: 1rem;
+        padding: 1rem;
+    }
+
+    .message-text {
+        max-width: 85%;
+        font-size: 0.85rem;
+        padding: 0.8rem 1rem;
+    }
+
+    .title-main {
+        font-size: 2rem;
+    }
+
+    .start-button {
+        padding: 1rem 2rem;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .grid-item {
+        width: 70px;
+        height: 70px;
+        font-size: 0.7rem;
+    }
+
+    .title-main {
+        font-size: 1.5rem;
+    }
+
+    .floating-hearts {
+        gap: 1rem;
+    }
+
+    .heart {
+        font-size: 2rem;
+    }
+}
+
+/* 滚动条样式 */
+.messages-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.messages-container::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+.messages-container::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #ff69b4, #ff1493);
+    border-radius: 10px;
+}
+
+.messages-container::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #ff1493, #ffd700);
+}
