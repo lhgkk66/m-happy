@@ -4,7 +4,8 @@ const gameState = {
     prizeIndex: 0,
     opened: new Set(),
     isPlaying: false,
-    finalPrizeFound: false
+    finalPrizeFound: false,
+    usedIndices: [] // 追踪已使用的格子
 };
 
 // 祝福语列表
@@ -32,6 +33,10 @@ function goToGame() {
     document.getElementById('home-page').classList.remove('active');
     document.getElementById('game-page').classList.add('active');
     gameState.isPlaying = true;
+    gameState.prizeIndex = 0;
+    gameState.opened = new Set();
+    gameState.usedIndices = [];
+    gameState.finalPrizeFound = false;
 }
 
 function goToBlessing() {
@@ -40,7 +45,33 @@ function goToBlessing() {
     startBlessingMessages();
 }
 
-// 抽奖逻辑
+// 随机抽奖逻辑 - 点击抽奖按钮时触发
+function triggerRandomDraw() {
+    if (!gameState.isPlaying) {
+        return;
+    }
+
+    // 获取所有未开启的格子
+    const availableIndices = [];
+    for (let i = 0; i < 9; i++) {
+        if (!gameState.opened.has(i)) {
+            availableIndices.push(i);
+        }
+    }
+
+    // 如果没有可用的格子，退出
+    if (availableIndices.length === 0) {
+        return;
+    }
+
+    // 随机选择一个未开启的格子
+    const randomIndex = availableIndices[Math.floor(Math.random() * availableIndices.length)];
+    
+    // 触发该格子的抽奖
+    drawPrize(randomIndex);
+}
+
+// 直接点击格子抽奖逻辑
 function drawPrize(index) {
     if (!gameState.isPlaying || gameState.opened.has(index)) {
         return;
@@ -57,10 +88,16 @@ function drawPrize(index) {
     // 显示奖励并播放动画
     showPrizeAnimation(gridItem, currentPrize, index);
 
-    // 检查是否抽到中心大奖
-    if (currentPrize === '心意许愿卷🎁' && index === 4) {
+    // 检查是否抽到中心大奖（必须是中心位置且是心意许愿卷）
+    if (index === 4 && currentPrize === '心意许愿卷🎁') {
         gameState.finalPrizeFound = true;
         gameState.isPlaying = false;
+        
+        // 禁用抽奖按钮
+        const drawBtn = document.getElementById('draw-button');
+        if (drawBtn) {
+            drawBtn.disabled = true;
+        }
         
         // 延迟后跳转到祝福页面
         setTimeout(() => {
@@ -123,7 +160,7 @@ function createFireworks() {
             const particle = document.createElement('div');
             particle.className = 'firework-particle';
             
-            const colors = ['#ff69b4', '#ff1493', '#ffd700', '#b19cd9', '#00ffff'];
+            const colors = ['#e8a87c', '#d4749f', '#b8695c', '#c89fb3', '#a89080'];
             const color = colors[Math.floor(Math.random() * colors.length)];
             particle.style.background = color;
             particle.style.boxShadow = `0 0 10px ${color}`;
@@ -227,7 +264,7 @@ function createContinuousFirework(container, isLeft) {
         const particle = document.createElement('div');
         particle.className = 'firework-particle';
 
-        const colors = ['#ff69b4', '#ff1493', '#ffd700', '#b19cd9', '#00ffff', '#ff6347'];
+        const colors = ['#e8a87c', '#d4749f', '#b8695c', '#c89fb3', '#a89080', '#d4a574'];
         const color = colors[Math.floor(Math.random() * colors.length)];
         particle.style.background = color;
         particle.style.boxShadow = `0 0 10px ${color}`;
@@ -292,10 +329,10 @@ style.textContent = `
 
     @keyframes finalPrizeGlow {
         0%, 100% {
-            box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+            box-shadow: 0 0 30px rgba(232, 168, 124, 0.6), inset 0 0 10px rgba(232, 168, 124, 0.3);
         }
         50% {
-            box-shadow: 0 0 50px rgba(255, 215, 0, 0.8);
+            box-shadow: 0 0 50px rgba(232, 168, 124, 0.9), inset 0 0 20px rgba(232, 168, 124, 0.5);
         }
     }
 `;
